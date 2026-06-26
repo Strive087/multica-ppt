@@ -11,12 +11,16 @@ test("switches from slide mode to overview mode", async () => {
   render(<PresentationShell slides={slides} />);
 
   expect(screen.getByLabelText("reveal deck")).toBeInTheDocument();
-  expect(screen.getByText("第 1 / 9 页")).toBeInTheDocument();
+  expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
+    "第 1 / 9 页",
+  );
   await user.click(screen.getByRole("button", { name: "切换到总览模式" }));
 
   expect(screen.getByLabelText("overview deck")).toBeInTheDocument();
   expect(screen.getByText("连续总览")).toBeInTheDocument();
-  expect(screen.getByText("第 1 / 9 页")).toBeInTheDocument();
+  expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
+    "第 1 / 9 页",
+  );
 });
 
 test("keeps slide state in sync across reveal and overview interactions", async () => {
@@ -25,7 +29,9 @@ test("keeps slide state in sync across reveal and overview interactions", async 
   render(<PresentationShell slides={slides} />);
 
   await user.click(screen.getByRole("button", { name: "下一页" }));
-  expect(screen.getByText("第 2 / 9 页")).toBeInTheDocument();
+  expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
+    "第 2 / 9 页",
+  );
   expect(
     within(screen.getByLabelText("reveal deck")).getByText(slides[1].title),
   ).toBeInTheDocument();
@@ -40,7 +46,9 @@ test("keeps slide state in sync across reveal and overview interactions", async 
 
   await user.click(screen.getByRole("button", { name: slides[4].title }));
   expect(screen.getByLabelText("reveal deck")).toBeInTheDocument();
-  expect(screen.getByText("第 5 / 9 页")).toBeInTheDocument();
+  expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
+    "第 5 / 9 页",
+  );
   expect(
     within(screen.getByLabelText("reveal deck")).getByText(slides[4].title),
   ).toBeInTheDocument();

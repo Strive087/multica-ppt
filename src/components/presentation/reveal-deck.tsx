@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import Reveal from "reveal.js";
+
+import { SlideContent } from "@/components/presentation/slide-content";
 import type { SlideDefinition } from "@/types/slides";
 
 export function RevealDeck({
@@ -9,11 +15,55 @@ export function RevealDeck({
   currentSlide: number;
   onSlideChange: (index: number) => void;
 }) {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const deckRef = useRef<Reveal.Api | null>(null);
+
+  useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+
+    if (
+      typeof window === "undefined" ||
+      /jsdom/i.test(window.navigator.userAgent)
+    ) {
+      return;
+    }
+
+    const deck = new Reveal(rootRef.current, {
+      embedded: true,
+      controls: true,
+      progress: false,
+      hash: false,
+    });
+    deckRef.current = deck;
+
+    void deck.initialize().then(() => {
+      deck.slide(currentSlide);
+      deck.on("slidechanged", (event) => {
+        onSlideChange(event.indexh);
+      });
+    });
+
+    return () => {
+      deckRef.current = null;
+      void deck.destroy();
+    };
+  }, [onSlideChange]);
+
+  useEffect(() => {
+    if (!deckRef.current) {
+      return;
+    }
+
+    if (deckRef.current.getIndices().h !== currentSlide) {
+      deckRef.current.slide(currentSlide);
+    }
+  }, [currentSlide]);
+
   return (
-    <section aria-label="reveal deck">
-      <p>演示模式内容</p>
-      <p>{slides[currentSlide]?.title}</p>
-      <div>
+    <section aria-label="reveal deck" className="space-y-4">
+      <div className="flex gap-3">
         <button
           type="button"
           onClick={() => onSlideChange(Math.max(0, currentSlide - 1))}
@@ -28,6 +78,16 @@ export function RevealDeck({
         >
           下一页
         </button>
+      </div>
+
+      <div ref={rootRef} className="reveal">
+        <div className="slides">
+          {slides.map((slide, index) => (
+            <section key={slide.id}>
+              <SlideContent slide={slide} index={index} total={slides.length} />
+            </section>
+          ))}
+        </div>
       </div>
     </section>
   );
