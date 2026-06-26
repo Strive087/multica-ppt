@@ -9,13 +9,86 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(circle at top, rgba(34, 211, 238, 0.12), transparent 30%),
-    linear-gradient(180deg, #020617 0%, #0f172a 55%, #111827 100%);
-  color: #e2e8f0;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  background-color: #f6f0e4;
+  background-image:
+    radial-gradient(120% 80% at 12% -10%, rgba(185, 124, 31, 0.10), transparent 55%),
+    radial-gradient(120% 80% at 110% 0%, rgba(169, 79, 28, 0.06), transparent 60%),
+    linear-gradient(180deg, #faf4e8 0%, #f3ecdd 48%, #ede4d0 100%);
+  color: #2a241d;
+  font-family: var(--font-serif), Georgia, "Songti SC", "Noto Serif SC", serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ----- Reveal stage ----- */
+.reveal .slides {
+  /* let our stage-frame own the visual layout */
+  width: 100% !important;
+  height: 100% !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
 }
 
 .reveal .slides section {
-  text-align: left;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  text-align: left !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  z-index: auto !important;
+}
+
+.reveal .slides section.present {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1 !important;
+}
+
+.reveal section > * {
+  width: 100%;
+}
+
+.reveal .slides section:not(.present),
+.reveal .slides section.past,
+.reveal .slides section.future {
+  transform: none !important;
+}
+
+.reveal .controls,
+.reveal .progress,
+.reveal .slide-number,
+.reveal .playback,
+.reveal .backgrounds {
+  display: none !important;
+}
+
+.reveal *,
+.reveal *::before,
+.reveal *::after {
+  box-sizing: border-box;
+}
+
+/* hide native scrollbar inside stage */
+.reveal::-webkit-scrollbar {
+  display: none;
+}
+
+/* faint paper grain for editorial feel */
+.stage-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(42, 36, 29, 0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.5;
+  border-radius: inherit;
 }

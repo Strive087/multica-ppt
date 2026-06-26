@@ -22,17 +22,20 @@ export function PresentationShell({
   }
 
   return (
-    <main>
-      <header>
-        <p>Multica Share</p>
-        <h1>Multica 的核心能力与报表迁移实践</h1>
-        <ModeToggle mode={mode} onChange={setMode} />
-      </header>
-      <ProgressNav
-        slideCount={slides.length}
-        currentSlide={currentSlide}
-        mode={mode}
-      />
+    <main className="relative flex h-screen w-screen flex-col overflow-hidden bg-paper">
+      <div className="pointer-events-none absolute right-4 top-4 z-20 flex items-center gap-3">
+        <div className="pointer-events-auto rounded-full bg-paper-soft/80 backdrop-blur">
+          <ProgressNav
+            slideCount={slides.length}
+            currentSlide={currentSlide}
+            mode={mode}
+          />
+        </div>
+        <div className="pointer-events-auto">
+          <ModeToggle mode={mode} onChange={setMode} />
+        </div>
+      </div>
+
       {mode === "slides" ? (
         <RevealDeck
           slides={slides}
@@ -40,11 +43,13 @@ export function PresentationShell({
           onSlideChange={setCurrentSlide}
         />
       ) : (
-        <OverviewDeck
-          slides={slides}
-          currentSlide={currentSlide}
-          onSelectSlide={handleOverviewSelect}
-        />
+        <div className="flex-1 overflow-auto px-6 py-16 lg:px-10">
+          <OverviewDeck
+            slides={slides}
+            currentSlide={currentSlide}
+            onSelectSlide={handleOverviewSelect}
+          />
+        </div>
       )}
     </main>
   );

@@ -8,24 +8,32 @@ import {
 } from "@/lib/slides";
 
 describe("slides deck", () => {
-  it("contains official product slides before practice slides", () => {
-    const product = getProductSlides(slides);
-    const practice = getPracticeSlides(slides);
-    const practiceIndex = slides.findIndex((slide) => slide.section === "practice");
+  it("orders sections as intro/official → practice → closing", () => {
+    const practiceIndices = slides
+      .map((slide, index) => (slide.section === "practice" ? index : -1))
+      .filter((index) => index >= 0);
+    const firstPractice = practiceIndices[0];
+    const lastPractice = practiceIndices[practiceIndices.length - 1];
 
-    expect(product.length).toBeGreaterThanOrEqual(7);
+    expect(getProductSlides(slides).length).toBeGreaterThanOrEqual(7);
     expect(getOfficialSlides(slides).length).toBeGreaterThanOrEqual(6);
-    expect(practice.length).toBeGreaterThanOrEqual(1);
-    expect(practiceIndex).toBeGreaterThan(0);
+    expect(practiceIndices.length).toBeGreaterThanOrEqual(1);
+    expect(firstPractice).toBeGreaterThan(0);
     expect(
       slides
-        .slice(0, practiceIndex)
+        .slice(0, firstPractice)
         .every(
-          (slide) =>
-            slide.section === "intro" || slide.section === "official",
+          (slide) => slide.section === "intro" || slide.section === "official",
         ),
     ).toBe(true);
-    expect(slides.slice(practiceIndex + 1).every((slide) => slide.section === "closing")).toBe(true);
+    expect(
+      slides
+        .slice(firstPractice, lastPractice + 1)
+        .every((slide) => slide.section === "practice"),
+    ).toBe(true);
+    expect(
+      slides.slice(lastPractice + 1).every((slide) => slide.section === "closing"),
+    ).toBe(true);
   });
 
   it("keeps source links on every official slide", () => {

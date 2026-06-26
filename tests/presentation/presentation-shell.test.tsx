@@ -5,6 +5,8 @@ import { test, expect } from "vitest";
 import { slides } from "@/content/slides";
 import { PresentationShell } from "@/components/presentation/presentation-shell";
 
+const total = slides.length;
+
 test("switches from slide mode to overview mode", async () => {
   const user = userEvent.setup();
 
@@ -12,14 +14,14 @@ test("switches from slide mode to overview mode", async () => {
 
   expect(screen.getByLabelText("reveal deck")).toBeInTheDocument();
   expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
-    "第 1 / 9 页",
+    `第 1 / ${total} 页`,
   );
   await user.click(screen.getByRole("button", { name: "切换到总览模式" }));
 
   expect(screen.getByLabelText("overview deck")).toBeInTheDocument();
   expect(screen.getByText("连续总览")).toBeInTheDocument();
   expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
-    "第 1 / 9 页",
+    `第 1 / ${total} 页`,
   );
 });
 
@@ -28,9 +30,10 @@ test("keeps slide state in sync across reveal and overview interactions", async 
 
   render(<PresentationShell slides={slides} />);
 
+  const jumpIndex = 6;
   await user.click(screen.getByRole("button", { name: "下一页" }));
   expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
-    "第 2 / 9 页",
+    `第 2 / ${total} 页`,
   );
   expect(
     within(screen.getByLabelText("reveal deck")).getByText(slides[1].title),
@@ -44,12 +47,12 @@ test("keeps slide state in sync across reveal and overview interactions", async 
     }),
   ).toBeInTheDocument();
 
-  await user.click(screen.getByRole("button", { name: slides[4].title }));
+  await user.click(screen.getByRole("button", { name: slides[jumpIndex].title }));
   expect(screen.getByLabelText("reveal deck")).toBeInTheDocument();
   expect(screen.getByLabelText("presentation progress")).toHaveTextContent(
-    "第 5 / 9 页",
+    `第 ${jumpIndex + 1} / ${total} 页`,
   );
   expect(
-    within(screen.getByLabelText("reveal deck")).getByText(slides[4].title),
+    within(screen.getByLabelText("reveal deck")).getByText(slides[jumpIndex].title),
   ).toBeInTheDocument();
 });
