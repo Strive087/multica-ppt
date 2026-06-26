@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Reveal from "reveal.js";
+import Reveal, { type RevealApi } from "reveal.js";
 
 import { SlideContent } from "@/components/presentation/slide-content";
 import type { SlideDefinition } from "@/types/slides";
@@ -16,7 +16,7 @@ export function RevealDeck({
   onSlideChange: (index: number) => void;
 }) {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const deckRef = useRef<Reveal.Api | null>(null);
+  const deckRef = useRef<RevealApi | null>(null);
 
   useEffect(() => {
     if (!rootRef.current) {
@@ -41,7 +41,8 @@ export function RevealDeck({
     void deck.initialize().then(() => {
       deck.slide(currentSlide);
       deck.on("slidechanged", (event) => {
-        onSlideChange(event.indexh);
+        const slideEvent = event as Event & { indexh: number };
+        onSlideChange(slideEvent.indexh);
       });
     });
 
