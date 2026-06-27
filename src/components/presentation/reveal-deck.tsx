@@ -103,7 +103,7 @@ export function RevealDeck({
       </div>
 
       {/* Floating prev/next nav overlay */}
-      <div className="pointer-events-none absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2 font-sans text-sm">
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 flex -translate-x-1/2 gap-2 font-sans text-sm">
         <button
           type="button"
           onClick={() => onSlideChange(Math.max(0, currentSlide - 1))}

@@ -42,6 +42,73 @@ export function OverviewThumb({ slide }: { slide: SlideDefinition }) {
           <path d="M132 62 H162" stroke={INK} strokeOpacity="0.4" strokeWidth="1.2" />
         </ThumbShell>
       );
+    case "chat-vs-workspace":
+      return (
+        <ThumbShell>
+          <rect x="16" y="26" width="78" height="70" rx="8" fill={INK} fillOpacity="0.06" stroke={INK} strokeOpacity="0.18" />
+          <rect x="31" y="42" width="42" height="10" rx="5" fill={SAGE} fillOpacity="0.35" />
+          <rect x="38" y="60" width="50" height="10" rx="5" fill={OCHRE} fillOpacity="0.35" />
+          <path d="M100 62 H120" stroke={ACCENT} strokeOpacity="0.55" strokeWidth="1.5" strokeDasharray="2 3" />
+          <circle cx="162" cy="60" r="16" fill={ACCENT} fillOpacity="0.18" stroke={ACCENT} />
+          <circle cx="132" cy="84" r="10" fill={SAGE} fillOpacity="0.28" stroke={SAGE} />
+          <circle cx="192" cy="84" r="10" fill={OCHRE} fillOpacity="0.28" stroke={OCHRE} />
+          <line x1="162" y1="76" x2="132" y2="84" stroke={INK} strokeOpacity="0.2" />
+          <line x1="162" y1="76" x2="192" y2="84" stroke={INK} strokeOpacity="0.2" />
+        </ThumbShell>
+      );
+    case "feature-map":
+      return (
+        <ThumbShell>
+          <circle cx="110" cy="62" r="18" fill={ACCENT} fillOpacity="0.18" stroke={ACCENT} />
+          {[
+            { x: 46, y: 34, c: SAGE },
+            { x: 174, y: 34, c: OCHRE },
+            { x: 190, y: 86, c: ACCENT },
+            { x: 110, y: 104, c: SAGE },
+            { x: 30, y: 86, c: OCHRE },
+          ].map((n, i) => (
+            <g key={i}>
+              <line x1="110" y1="62" x2={n.x} y2={n.y} stroke={INK} strokeOpacity="0.18" strokeDasharray="2 3" />
+              <circle cx={n.x} cy={n.y} r="10" fill={n.c} fillOpacity="0.22" stroke={n.c} />
+            </g>
+          ))}
+        </ThumbShell>
+      );
+    case "runtime-matrix":
+      return (
+        <ThumbShell>
+          <rect x="22" y="24" width="176" height="78" rx="8" fill={SAGE} fillOpacity="0.08" stroke={INK} strokeOpacity="0.16" />
+          {[0, 1, 2].map((i) => (
+            <rect key={i} x={82 + i * 36} y="34" width="28" height="12" rx="3" fill={[SAGE, OCHRE, ACCENT][i]} fillOpacity="0.18" stroke={[SAGE, OCHRE, ACCENT][i]} strokeWidth="0.8" />
+          ))}
+          {[0, 1].map((row) =>
+            [0, 1, 2].map((col) => (
+              <circle key={`${row}-${col}`} cx={96 + col * 36} cy={64 + row * 24} r="7" fill={[SAGE, OCHRE, ACCENT][col]} fillOpacity="0.18" stroke={[SAGE, OCHRE, ACCENT][col]} />
+            )),
+          )}
+          {[0, 1].map((row) => (
+            <rect key={row} x="34" y={58 + row * 24} width="34" height="12" rx="3" fill={INK} fillOpacity="0.06" stroke={SAGE} strokeOpacity="0.35" />
+          ))}
+        </ThumbShell>
+      );
+    case "practice-workflow":
+      return (
+        <ThumbShell>
+          <path d="M30 68 C56 36, 82 36, 106 62 C132 90, 164 88, 190 58" fill="none" stroke={INK} strokeOpacity="0.2" strokeWidth="1.2" />
+          {[
+            { x: 34, y: 68, c: SAGE },
+            { x: 78, y: 46, c: OCHRE },
+            { x: 118, y: 68, c: ACCENT },
+            { x: 160, y: 46, c: SAGE },
+            { x: 194, y: 68, c: OCHRE },
+          ].map((n, i) => (
+            <g key={i}>
+              <circle cx={n.x} cy={n.y} r="9" fill={n.c} fillOpacity="0.18" stroke={n.c} />
+            </g>
+          ))}
+          <path d="M190 84 C150 110, 72 110, 34 84" fill="none" stroke={ACCENT} strokeOpacity="0.28" strokeWidth="1" strokeDasharray="2 3" />
+        </ThumbShell>
+      );
     case "object-map":
       return (
         <ThumbShell>

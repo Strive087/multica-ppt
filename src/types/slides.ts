@@ -2,9 +2,14 @@ export type SlideSection = "intro" | "official" | "practice" | "closing";
 
 export type VisualType =
   | "hero"
+  | "chat-vs-workspace"
   | "runtime-diagram"
+  | "feature-map"
   | "object-map"
   | "capability-grid"
+  | "trigger-map"
+  | "runtime-matrix"
+  | "practice-workflow"
   | "workflow"
   | "summary";
 

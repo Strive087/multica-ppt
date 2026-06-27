@@ -1,9 +1,14 @@
 import { HeroVisual } from "@/components/visuals/hero-visual";
 import { CapabilityGrid } from "@/components/visuals/capability-grid";
+import { ChatVsWorkspace } from "@/components/visuals/chat-vs-workspace";
+import { FeatureMap } from "@/components/visuals/feature-map";
 import { MigrationWorkflow } from "@/components/visuals/migration-workflow";
 import { ObjectMap } from "@/components/visuals/object-map";
+import { PracticeWorkflow } from "@/components/visuals/practice-workflow";
 import { RuntimeDiagram } from "@/components/visuals/runtime-diagram";
+import { RuntimeMatrix } from "@/components/visuals/runtime-matrix";
 import { SummaryVisual } from "@/components/visuals/summary-visual";
+import { TriggerMap } from "@/components/visuals/trigger-map";
 import type { SlideDefinition, VisualType } from "@/types/slides";
 
 type TemplateKind = "hero" | "diagram" | "story" | "summary";
@@ -19,10 +24,20 @@ function renderVisual(type: VisualType) {
   switch (type) {
     case "runtime-diagram":
       return <RuntimeDiagram />;
+    case "chat-vs-workspace":
+      return <ChatVsWorkspace />;
+    case "feature-map":
+      return <FeatureMap />;
+    case "runtime-matrix":
+      return <RuntimeMatrix />;
+    case "practice-workflow":
+      return <PracticeWorkflow />;
     case "object-map":
       return <ObjectMap />;
     case "capability-grid":
       return <CapabilityGrid />;
+    case "trigger-map":
+      return <TriggerMap />;
     case "workflow":
       return <MigrationWorkflow />;
     case "hero":
@@ -64,11 +79,11 @@ interface TemplateProps {
 function HeroTemplate({ slide }: TemplateProps) {
   return (
     <div className="grid h-full w-full grid-cols-1 md:grid-cols-[0.92fr_1.08fr]">
-      <div className="flex flex-col justify-between gap-8 px-12 py-14 lg:px-16">
+      <div className="flex flex-col justify-between gap-6 px-12 py-12 lg:px-16">
         <p className="font-sans text-lg uppercase tracking-editorial text-accent">
           {slide.kicker}
         </p>
-        <div className="space-y-8">
+        <div className="space-y-7">
           <h2 className="font-serif text-5xl font-semibold leading-[1.08] text-ink lg:text-6xl">
             {slide.title}
           </h2>

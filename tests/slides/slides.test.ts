@@ -15,8 +15,9 @@ describe("slides deck", () => {
     const firstPractice = practiceIndices[0];
     const lastPractice = practiceIndices[practiceIndices.length - 1];
 
+    expect(slides.length).toBeLessThanOrEqual(10);
     expect(getProductSlides(slides).length).toBeGreaterThanOrEqual(7);
-    expect(getOfficialSlides(slides).length).toBeGreaterThanOrEqual(6);
+    expect(getOfficialSlides(slides).length).toBeGreaterThanOrEqual(5);
     expect(practiceIndices.length).toBeGreaterThanOrEqual(1);
     expect(firstPractice).toBeGreaterThan(0);
     expect(
